@@ -9,22 +9,27 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var networkManager = NetworkManager()
-
+    
     var body: some View {
         NavigationView {
-            List{
+            List {
                 ForEach(networkManager.posts) { post in
-                    HStack {
-                        Text("\(post.points)")
-                        Text(post.title)
-                    }
+                    NavigationLink(
+                        destination: DetailsView(url: post.url),
+                        label: {
+                            HStack {
+                                Text("\(post.points)")
+                                Text(post.title)
+                            }
+                        }
+                    )
                 }
                 .listRowSeparator(.hidden)
                 .listRowInsets([.bottom], 5)
             }
             .listStyle(PlainListStyle())
             .navigationBarTitle(Text("Hacker News"))
-
+            
         }
         .preferredColorScheme(.dark)
         .onAppear {
